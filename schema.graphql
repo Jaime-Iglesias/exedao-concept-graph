@@ -1,0 +1,67 @@
+type Daoist @entity {
+  id: ID! # the daoist address
+  shares: BigInt! # uint64
+}
+
+type Application @entity {
+  id: ID! # the applicant address
+  shares: BigInt! # uint64
+  metaHash: Bytes! # bytes32
+  txHash: Bytes! # bytes32
+  weiTribute: BigInt! # uint256
+  tokenTributes: [Bytes!]! # address[];
+  tokenTributeValues: [BigInt!]! # uint256[]
+  acceptedAtBlock: BigInt! # uint64
+  canceledAtBlock: BigInt! # uint64
+}
+
+type Proposal @entity {
+  id: ID! # the proposal hash
+  submitter: Bytes! # address 
+  metaHash: Bytes! # bytes32
+  txHash: Bytes! # bytes32
+  index:  BigInt! # uint256
+  votes: [ProposalVote!]! # Daoists who voted this proposal
+  acceptedAtBlock: BigInt! # uint64
+  expirationBlock: BigInt! #uint64
+  expired: Boolean!
+}
+
+type ProposalVote @entity {
+  id: ID! # voterID + proposalHash
+  voter: Bytes! # address
+  proposalHash: Bytes! # bytes32
+  votes: BigInt! # uint64
+}
+
+type Token @entity {
+ id: ID! # the token address
+ name: String
+ symbol: String
+ decimals: BigInt
+ balance: BigInt!
+ admitted: Boolean!
+}
+
+type Transfer @entity {
+  id: ID!
+  tokenAddress: Bytes! # address
+  sender: Bytes! # address
+  recipient: Bytes! # address
+  amount: BigInt! #uint256
+}
+
+type Extension @entity {
+  id: ID!
+  extensionIndex: BigInt! # uint256
+  metaHash: Bytes! # bytes32
+  extensionAddress: Bytes! # address
+  useDelegate: Boolean!
+  functionSignatures: [Bytes!]! # bytes4[]
+}
+
+type MetaData @entity {
+  id: ID!
+  title: String
+  description: String
+}

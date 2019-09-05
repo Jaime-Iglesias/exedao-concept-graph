@@ -1,0 +1,93 @@
+  let decimalsCall = tokenContract.try_decimals();
+  let symbolCall = tokenContract.try_name();
+  let nameCall = tokenContract.try_symbol();
+
+  if (!decimalsCall.reverted) {
+    token.decimals = BigInt.fromI32(decimalsCall.value);
+  }
+  if (!symbolCall.reverted) {
+    token.symbol = symbolCall.value;
+  }
+  if (!nameCall.reverted) {
+    token.name = nameCall.value;
+  }
+
+/**********************************************/
+
+/******************* TOKENS *******************/
+
+export function handleApplicationAdded(event : ApplicationAddedEvent) : void {
+  let applicationId = event.params.applicant.toHex();
+
+  let application = Application.load(applicationId);
+  if (application == null) {
+    application = new Application(applicationId);
+  }
+  // overwrite previous canceled application or initialize for new one
+  application.tokenTributes = [];
+  application.tokenTributeValues = [];
+  application.canceledAtBlock = null;
+
+  // can the metaHash be null? or will it always be at least 0x0 ?
+
+  // get application info from contract
+  let exedao = ExeDAO.bind(event.address);
+  let applicationInfo = exedao.getApplication(event.params.applicant);
+  application.shares = applicationInfo.shares;
+  application.metaHash = applicationInfo.metaHash;
+  application.txHash = event.transaction.hash;
+  application.weiTribute = applicationInfo.weiTribute;
+  
+  // fill tributes (type conversion needed)
+  let tributesInfo = applicationInfo.tokenTributes;
+  let tributes = application.tokenTributes;
+  for (let i = 0; i < tributesInfo.length; i++) {
+    tributes.push(tributesInfo[i] as Address);
+  }
+
+  application.tokenTributes = tributes;
+  application.tokenTributeValues = applicationInfo.tokenTributeValues;
+
+  // IPFS resolve
+  //let hash = applicationInfo.metaHash.toHex();
+  //fetchMetaData(hash);
+  application.save();
+}
+
+/**********************************************/
+
+/****************** PROPOSAL ******************/
+
+export function handleProposalSubmission(event : ProposalSubmissionEvent) : void {
+  let vote = new ProposalVote(event.params.submitter.toHexString() + '-' + event.params.proposalHash.toHex());
+  vote.voter = event.params.submitter;
+  vote.proposalHash = event.params.proposalHash;
+  vote.votes = event.params.votesCast;
+  vote.save();
+
+  let proposal = new Proposal(event.params.proposalHash.toHex());
+  proposal.submitter = event.params.submitter;
+  proposal.metaHash = event.params.metaHash;
+  proposal.txHash = event.transaction.hash;
+  proposal.votes.push(vote.id);
+  proposal.save();
+}
+
+export function handleProposalVote(event : ProposalVoteEvent) : void {}
+
+export function handleProposalApproval(event: ProposalApprovalEvent): void {}
+
+export function handleProposalExpiration(event: ProposalExpirationEvent): void {}
+
+/**********************************************/
+
+export function handleExtensionAdded(event: ExtensionAddedEvent): void {
+  let exedao = ExeDAO.bind(event.address)
+  let ext = exedao.getExtension(event.params.extensionIndex);
+  let entity = new Extension('extension -- ' + event.params.extensionIndex.toString());
+  entity.functionSignatures = ext.functionSignatures;
+  entity.extensionAddress = ext.extensionAddress;
+  entity.metaHash = ext.metaHash;
+  entity.extensionIndex = event.params.extensionIndex;
+  entity.save()
+}
