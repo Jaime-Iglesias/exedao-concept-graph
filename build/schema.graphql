@@ -36,9 +36,9 @@ type ProposalVote @entity {
 
 type Token @entity {
  id: ID! # the token address
- name: String
- symbol: String
- decimals: BigInt
+ name: String!
+ symbol: String!
+ decimals: BigInt!
  balance: BigInt!
  admitted: Boolean!
 }
@@ -62,6 +62,6 @@ type Extension @entity {
 
 type MetaData @entity {
   id: ID!
-  title: String
-  description: String
+  title: String!
+  description: String!
 }

@@ -346,55 +346,31 @@ export class Token extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get name(): string | null {
+  get name(): string {
     let value = this.get("name");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString();
-    }
+    return value.toString();
   }
 
-  set name(value: string | null) {
-    if (value === null) {
-      this.unset("name");
-    } else {
-      this.set("name", Value.fromString(value as string));
-    }
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
   }
 
-  get symbol(): string | null {
+  get symbol(): string {
     let value = this.get("symbol");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString();
-    }
+    return value.toString();
   }
 
-  set symbol(value: string | null) {
-    if (value === null) {
-      this.unset("symbol");
-    } else {
-      this.set("symbol", Value.fromString(value as string));
-    }
+  set symbol(value: string) {
+    this.set("symbol", Value.fromString(value));
   }
 
-  get decimals(): BigInt | null {
+  get decimals(): BigInt {
     let value = this.get("decimals");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toBigInt();
-    }
+    return value.toBigInt();
   }
 
-  set decimals(value: BigInt | null) {
-    if (value === null) {
-      this.unset("decimals");
-    } else {
-      this.set("decimals", Value.fromBigInt(value as BigInt));
-    }
+  set decimals(value: BigInt) {
+    this.set("decimals", Value.fromBigInt(value));
   }
 
   get balance(): BigInt {
@@ -589,37 +565,21 @@ export class MetaData extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get title(): string | null {
+  get title(): string {
     let value = this.get("title");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString();
-    }
+    return value.toString();
   }
 
-  set title(value: string | null) {
-    if (value === null) {
-      this.unset("title");
-    } else {
-      this.set("title", Value.fromString(value as string));
-    }
+  set title(value: string) {
+    this.set("title", Value.fromString(value));
   }
 
-  get description(): string | null {
+  get description(): string {
     let value = this.get("description");
-    if (value === null) {
-      return null;
-    } else {
-      return value.toString();
-    }
+    return value.toString();
   }
 
-  set description(value: string | null) {
-    if (value === null) {
-      this.unset("description");
-    } else {
-      this.set("description", Value.fromString(value as string));
-    }
+  set description(value: string) {
+    this.set("description", Value.fromString(value));
   }
 }

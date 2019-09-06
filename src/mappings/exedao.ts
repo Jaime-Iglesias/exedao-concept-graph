@@ -109,7 +109,7 @@ export function handleTokenAdded(event : TokenAddedEvent) : void {
   let token = new Token(tokenId);
   token.admitted = true;
   token.balance = BigInt.fromI32(0);
-  token.name = "Unnamed ERC20"
+  token.name = "Unnamed ERC20";
   token.symbol = 'ERC20';
   token.decimals = BigInt.fromI32(18);
 
@@ -234,11 +234,14 @@ export function handleExtensionAdded(event: ExtensionAddedEvent): void {}
 export function processMetaData(value: JSONValue, userData: Value): void {
   log.debug('jsonValue:', [value.toString()]);
 
+  let metaData = new MetaData(userData.toString());
+  metaData.title = '';
+  metaData.description = '';
+  
   let obj = value.toObject();
   let title = obj.get('title').toString();
   let description = obj.get('description').toString();
 
-  let metaData = new MetaData(userData.toString());
   metaData.title = title;
   metaData.description = description;
   metaData.save();
