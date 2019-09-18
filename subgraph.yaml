@@ -6,7 +6,7 @@ dataSources:
     name: ExeDAO
     network: ropsten
     source:
-      address: '0xCA2De8E8164C11fE30B0c10Ea928a6a6aF1c7fa7'
+      address: '0x564B84a108c9968481376d7dEaf6F25FDd34da87'
       abi: ExeDAO
     mapping:
       kind: ethereum/events
@@ -24,6 +24,8 @@ dataSources:
       abis:
         - name: ExeDAO
           file: ./abis/exedao.json
+        - name: ERC20
+          file: ./abis/erc20.json
       eventHandlers:
         - event: ApplicationAdded(address,uint64)
           handler: handleApplicationAdded

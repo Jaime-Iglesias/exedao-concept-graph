@@ -50,6 +50,24 @@ export class Daoist extends Entity {
   set shares(value: BigInt) {
     this.set("shares", Value.fromBigInt(value));
   }
+
+  get proposalSubmissions(): Array<string> {
+    let value = this.get("proposalSubmissions");
+    return value.toStringArray();
+  }
+
+  set proposalSubmissions(value: Array<string>) {
+    this.set("proposalSubmissions", Value.fromStringArray(value));
+  }
+
+  get proposalVotes(): Array<string> {
+    let value = this.get("proposalVotes");
+    return value.toStringArray();
+  }
+
+  set proposalVotes(value: Array<string>) {
+    this.set("proposalVotes", Value.fromStringArray(value));
+  }
 }
 
 export class Application extends Entity {
@@ -82,6 +100,24 @@ export class Application extends Entity {
     this.set("id", Value.fromString(value));
   }
 
+  get index(): BigInt {
+    let value = this.get("index");
+    return value.toBigInt();
+  }
+
+  set index(value: BigInt) {
+    this.set("index", Value.fromBigInt(value));
+  }
+
+  get submitter(): Bytes {
+    let value = this.get("submitter");
+    return value.toBytes();
+  }
+
+  set submitter(value: Bytes) {
+    this.set("submitter", Value.fromBytes(value));
+  }
+
   get shares(): BigInt {
     let value = this.get("shares");
     return value.toBigInt();
@@ -91,13 +127,13 @@ export class Application extends Entity {
     this.set("shares", Value.fromBigInt(value));
   }
 
-  get metaHash(): Bytes {
-    let value = this.get("metaHash");
-    return value.toBytes();
+  get metaData(): string {
+    let value = this.get("metaData");
+    return value.toString();
   }
 
-  set metaHash(value: Bytes) {
-    this.set("metaHash", Value.fromBytes(value));
+  set metaData(value: string) {
+    this.set("metaData", Value.fromString(value));
   }
 
   get txHash(): Bytes {
@@ -185,22 +221,22 @@ export class Proposal extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get submitter(): Bytes {
+  get submitter(): string {
     let value = this.get("submitter");
-    return value.toBytes();
+    return value.toString();
   }
 
-  set submitter(value: Bytes) {
-    this.set("submitter", Value.fromBytes(value));
+  set submitter(value: string) {
+    this.set("submitter", Value.fromString(value));
   }
 
-  get metaHash(): Bytes {
-    let value = this.get("metaHash");
-    return value.toBytes();
+  get metaData(): string {
+    let value = this.get("metaData");
+    return value.toString();
   }
 
-  set metaHash(value: Bytes) {
-    this.set("metaHash", Value.fromBytes(value));
+  set metaData(value: string) {
+    this.set("metaData", Value.fromString(value));
   }
 
   get txHash(): Bytes {
@@ -288,22 +324,22 @@ export class ProposalVote extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get voter(): Bytes {
+  get voter(): string {
     let value = this.get("voter");
-    return value.toBytes();
+    return value.toString();
   }
 
-  set voter(value: Bytes) {
-    this.set("voter", Value.fromBytes(value));
+  set voter(value: string) {
+    this.set("voter", Value.fromString(value));
   }
 
-  get proposalHash(): Bytes {
-    let value = this.get("proposalHash");
-    return value.toBytes();
+  get proposal(): string {
+    let value = this.get("proposal");
+    return value.toString();
   }
 
-  set proposalHash(value: Bytes) {
-    this.set("proposalHash", Value.fromBytes(value));
+  set proposal(value: string) {
+    this.set("proposal", Value.fromString(value));
   }
 
   get votes(): BigInt {
@@ -422,13 +458,13 @@ export class Transfer extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get tokenAddress(): Bytes {
-    let value = this.get("tokenAddress");
-    return value.toBytes();
+  get token(): string {
+    let value = this.get("token");
+    return value.toString();
   }
 
-  set tokenAddress(value: Bytes) {
-    this.set("tokenAddress", Value.fromBytes(value));
+  set token(value: string) {
+    this.set("token", Value.fromString(value));
   }
 
   get sender(): Bytes {
@@ -498,13 +534,13 @@ export class Extension extends Entity {
     this.set("extensionIndex", Value.fromBigInt(value));
   }
 
-  get metaHash(): Bytes {
-    let value = this.get("metaHash");
-    return value.toBytes();
+  get metaData(): string {
+    let value = this.get("metaData");
+    return value.toString();
   }
 
-  set metaHash(value: Bytes) {
-    this.set("metaHash", Value.fromBytes(value));
+  set metaData(value: string) {
+    this.set("metaData", Value.fromString(value));
   }
 
   get extensionAddress(): Bytes {

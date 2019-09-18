@@ -1,12 +1,16 @@
 type Daoist @entity {
   id: ID! # the daoist address
   shares: BigInt! # uint64
+  proposalSubmissions: [Proposal!]! @derivedFrom (field: "submitter")
+  proposalVotes: [ProposalVote!]! @derivedFrom (field: "voter")
 }
 
 type Application @entity {
-  id: ID! # the applicant address
+  id: ID! # the applicant address + (transaction hash if's a previous application that got canceled)
+  index: BigInt!
+  submitter: Bytes! # the applicant
   shares: BigInt! # uint64
-  metaHash: Bytes! # bytes32
+  metaData: MetaData! # ipfs data
   txHash: Bytes! # bytes32
   weiTribute: BigInt! # uint256
   tokenTributes: [Bytes!]! # address[];
@@ -16,21 +20,21 @@ type Application @entity {
 }
 
 type Proposal @entity {
-  id: ID! # the proposal hash
-  submitter: Bytes! # address 
-  metaHash: Bytes! # bytes32
+  id: ID! # the proposal hash + transaction hash
+  submitter: Daoist! # address 
+  metaData: MetaData! # ipfs data
   txHash: Bytes! # bytes32
   index:  BigInt! # uint256
-  votes: [ProposalVote!]! # Daoists who voted this proposal
-  acceptedAtBlock: BigInt! # uint64
+  votes: [ProposalVote!]! @derivedFrom(field: "proposal") # Daoists who voted this proposal
+  acceptedAtBlock: BigInt! #uint64
   expirationBlock: BigInt! #uint64
   expired: Boolean!
 }
 
 type ProposalVote @entity {
   id: ID! # voterID + proposalHash
-  voter: Bytes! # address
-  proposalHash: Bytes! # bytes32
+  voter: Daoist! # address
+  proposal: Proposal! # bytes32
   votes: BigInt! # uint64
 }
 
@@ -45,7 +49,7 @@ type Token @entity {
 
 type Transfer @entity {
   id: ID!
-  tokenAddress: Bytes! # address
+  token: Token! # address
   sender: Bytes! # address
   recipient: Bytes! # address
   amount: BigInt! #uint256
@@ -54,14 +58,14 @@ type Transfer @entity {
 type Extension @entity {
   id: ID!
   extensionIndex: BigInt! # uint256
-  metaHash: Bytes! # bytes32
+  metaData: MetaData!
   extensionAddress: Bytes! # address
   useDelegate: Boolean!
   functionSignatures: [Bytes!]! # bytes4[]
 }
 
 type MetaData @entity {
-  id: ID!
+  id: ID! # the metaHash from (Application, Proposal or Extension)
   title: String!
   description: String!
 }
